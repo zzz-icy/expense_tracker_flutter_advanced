@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "package:expense_tracker_advanced_flutter/model/expense.dart";
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -17,16 +18,34 @@ class _NewExpenseState extends State<NewExpense> {
 //*When you create a TextEditingController here you also have to tell Flutter to delete that controller when the widget is not needed anymore.
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  //* can not use var keyword when setting a type
+  DateTime? _selectedDate;
+  Category? _selectedCategory = Category.leisure;
 
-  void _presentDatePicker() {
+  void _presentDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 1, now.month, now.day);
     final lastDate = now;
-    showDatePicker(
+    final pickedDate = await showDatePicker(
         context: context,
         initialDate: now,
         firstDate: firstDate,
         lastDate: lastDate);
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+
+    //8 can use async await as well here instead of then
+  }
+
+  void _presentSelectedCategory(value) {
+    setState(() {
+      if (value == null) {
+        return;
+      }
+      _selectedCategory = value;
+    });
   }
 
   @override
@@ -75,7 +94,9 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Selected Date'),
+                    Text(_selectedDate == null
+                        ? 'No date selected'
+                        : formatter.format(_selectedDate!)),
                     IconButton(
                         onPressed: _presentDatePicker,
                         icon: const Icon(Icons.calendar_month))
@@ -86,6 +107,19 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           Row(
             children: [
+              DropdownButton(
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(
+                            category.name.toUpperCase(),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: _presentSelectedCategory),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
