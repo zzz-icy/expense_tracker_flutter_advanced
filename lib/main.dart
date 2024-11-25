@@ -1,4 +1,4 @@
-import 'package:expense_tracker_advanced_flutter/expenses.dart';
+import 'package:expense_tracker_advanced_flutter/widgets/expenses.dart';
 import 'package:flutter/material.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.deepPurple);
