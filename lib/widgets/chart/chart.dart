@@ -38,7 +38,8 @@ class Chart extends StatelessWidget {
         vertical: 16,
         horizontal: 8,
       ),
-      width: double.infinity,
+      width: double
+          .infinity, // will get trouble when it is a direct child of an widget that also has infinity, e.g. Row, can be wrapped into Expanded
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),

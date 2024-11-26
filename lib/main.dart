@@ -7,6 +7,10 @@ var kDarkColorScheme = ColorScheme.fromSeed(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 5, 99, 125));
 void main() {
+  //* This is required to make sure that locking the orientation and then running the app works as intended.
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((fn) {
   runApp(
     MaterialApp(
       darkTheme: ThemeData.dark().copyWith(
@@ -43,4 +47,5 @@ void main() {
       home: const Expenses(),
     ),
   );
+  // });
 }
